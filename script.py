@@ -1,16 +1,18 @@
 def vigenere_decrypt(ciphertext, key):
     key_len = len(key)
     decrypted_text = ""
-    for i in range(len(ciphertext)):
-        if ciphertext[i].isalpha():
-            key_shift = ord(key[i % key_len].lower()) - ord('a')
-            if ciphertext[i].isupper():
-                decrypted_char = chr((ord(ciphertext[i]) - key_shift - 65) % 26 + 65)
+    key_index = 0
+    for char in ciphertext:
+        if char.isalpha():
+            key_shift = ord(key[key_index % key_len].lower()) - ord('a')
+            if char.isupper():
+                decrypted_char = chr((ord(char) - key_shift - 65) % 26 + 65)
             else:
-                decrypted_char = chr((ord(ciphertext[i]) - key_shift - 97) % 26 + 97)
+                decrypted_char = chr((ord(char) - key_shift - 97) % 26 + 97)
             decrypted_text += decrypted_char
+            key_index += 1
         else:
-            decrypted_text += ciphertext[i]
+            decrypted_text += char
     return decrypted_text
 
 def vigenere_attack(ciphertext, max_key_length=12):
@@ -36,3 +38,4 @@ def vigenere_attack(ciphertext, max_key_length=12):
 if __name__ == "__main__":
     ciphertext = input("Enter the Vigenère-encrypted ciphertext: ")
     vigenere_attack(ciphertext)
+
